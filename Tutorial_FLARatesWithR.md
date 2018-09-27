@@ -22,14 +22,14 @@ ls
 
 2. **CalculateStdBins.R**: Define and visualize std bins
 
-3. Calculate hydrolysis rates
+3. **FlaRates_Rdemo.R**: Calculate hydrolysis rates
 
 
 ## 1 - Slant correct raw GPC data
 
 The **RawGpcProcess.R** script takes any raw .asc output file from the GPC, slant corrects it, and produces a slant-corrected file of the same name with a .csv extension (you can open this in Excel to look at it manually). It also visualizes the chromatogram and produces a file of the same name with a png extension
 
-#### Naming your raw GPC data
+### Naming your raw GPC data
 
 **This is a really crucial part of running these scripts. Your file naming format needs to match the lab file naming format agreed upon in previous years, so that the script knows what station, depth, substrate, rep, and timepoint each file corresponds to.**
 
@@ -55,7 +55,7 @@ e.g., stn1-d1-bulk-ara-2-t3.asc; stn4-d2-bulk-lam-x-t5.asc
 
 The above *can* be changed in the rate script if you want to make your own labeling scheme, if you understand regular expressions. There are many written and video tutorials out there for using regular expressions in R, if you want to learn them. The relevant lines of code to adjust are in lines 46-49.
 
-#### Organize your files
+### Organize your files
 
 1. Put any .asc files you want to slant correct in a folder. You can name it whatever you want. For this tutorial, I provided some .asc files from EN556 bulk water incubations in a folder called "raw-asc".
 
@@ -73,13 +73,13 @@ You will now see the folders 'slant-corrected-csv' and 'chroms-png' with the sla
 
 Before calculating rates, you need to deduce the standard bin cutoffs for all the standards you ran with your chromatograms. 
 
-#### Organize your files
+### Organize your files
 
 I like to put all the relevant standards in a folder called 'stds', and within that let each standard set have its own folder. For this tutorial, you will find a provided folder called 'stds' with the 'raw-asc' chromatogram output for that run in it.
 
 **VERY IMPT**: Name your standard files to begin with the standard that is run. This should be either 150kD, 10kD, 4kD, GAL, or FLA. The script looks for files that begin with those strings to identify which standard is which. The rest of the file name can be whatever you want. 
 
-#### Slant correct your standard data as you did for your samples
+### Slant correct your standard data as you did for your samples
 
 1. Change your working directory to the standards folder you want to process. 
 2. Run the RawGpcProcess.R script in this folder.
@@ -95,7 +95,7 @@ source("../../scripts/RawGpcProcess.R")
 setwd("../..")
 ```
 
-#### Calculate standard bins
+### Calculate standard bins
 
 1. In RStudio, change lines 9, 11, and 13 in the script "CalculateStdBins.R" to reflect the path of the slant-corrected csv files to use for the calculation, the output path and file name of the .csv calculated file info, and the output path and file name of the standard bin visualization, respectively. Make sure these paths are relevant to the working directory you're in (for us, this should be the main folder we downloaded):
 
@@ -108,11 +108,12 @@ I like to name the output files 'stdbins-gpc#-MMDDYY...', but you can name it wh
 3. Repeat steps 1 and 2 for all standard bin folders you want to calculate bins for. 
 
 Now you can look at the std bins .csv in excel, or look at the .png to sanity check if the cutoffs look reasonable. It should look something like this:
+
 ![alt text](https://github.com/ahoarfrost/ArnostiLab-RScript-Demo/blob/master/images-for-tut/stdbins-gpc2-071515.png)
 
 ## 3 - Calculate FLA hydrolysis rates
 
-#### Create your timesheet/std refs spreadsheet
+### Create your timesheet/std refs spreadsheet
 
 This spreadsheet needs to manually created in Excel or something similar, so that the script knows 1) what was the elapsed time (from t0) for the rate calculation, and 2) what standard bins to use for the calculation. You need to provide this information from your lab notebook. 
 
@@ -120,11 +121,11 @@ For this tutorial, a number of reference files you need for the script calculati
 
 When creating a new timesheet/std refs spreadsheet for a new project, the format of the spreadsheet should look like the "FlaTimepointsStdRefs_EN556stn1234.csv" file in the folder 'reference-files'. **Most importantly, make sure your rows have the sample name, exactly as it is in the 'slant-corrected-csv' folder (without the .csv suffix) - e.g. stn1-d1-bulk-chon-1-t1; have an elapsed.time.hrs column that contains sthe elapsed time since t0, in hours; and have a std.ref column with the file name prefix of the stdbins that should be used for that sample. This would be whatever you named your stdbins .csv output in step 1 of "Calculate standard bins" above, e.g. stdbins-gpc2-071515 or stdbins-gpc3-072715.**
 
-#### Make sure you have your hydrolysis cuts info in the reference files
+### Make sure you have your hydrolysis cuts info in the reference files
 
 This is provided in the 'reference-files' folder as "HydrolysisCutsInfo.csv". This contains information about the number of hydrolysis cuts to hydrolyze a substrate into the various molecular weight bins, etc. This information does not change from project to project so you can simply copy this file to each new project without editing. If down the road we add new substrates to the mix, simply create a new column in this file.
 
-#### Organize your files
+### Organize your files
 
 1. Put all the .csv slant corrected files for the experiments you want to calculate rates for in a folder. In this tutorial, this is the 'slant-corrected-csv' folder we created in main folder in the first step. If you only wanted to calculate rates for a subset of these samples, you could copy the relevant files to a new folder. All of the samples from a single experiment should be together (e.g. all the live reps and kills for stn1-d1-ara). In general, you should put all timepoints in there too, although you could remove all the t3s if you wanted to ignore that timepoint, for example.
 
@@ -136,7 +137,7 @@ cp stds/stds-gpc2-071515/stdbins-gpc2-071515.csv reference-files/stdbins/
 cp stds/stds-gpc3-072715/stdbins-gpc3-072715.csv reference-files/stdbins/
 ```
 
-#### Adjust the reference header in FlaRates_XXX.R to be specific to your project
+### Adjust the reference header in FlaRates_XXX.R to be specific to your project
 
 I generally create a new rates script for each project, so I can keep it in the project folder and preserve the heading I used for that project. The basic rate calculation is the same, but the information specific to the project - where the files to calculate rates for are, the incubation volume, the substrate concentration, etc. - can be adjusted depending on the project. 
 
@@ -158,7 +159,7 @@ I generally create a new rates script for each project, so I can keep it in the 
 
 * Line 24: What you want your rate output file to be called. This can be whatever you want. I like to do "FlaRates_PROJECTNAME.csv". For this tutorial, I used "FlaRates_Rdemo.csv".
 
-#### Run the script!
+### Run the script!
 
 You can press the "Source" button in RStudio, or run the following line in the RStudio console: 
 

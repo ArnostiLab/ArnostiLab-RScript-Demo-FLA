@@ -4,7 +4,7 @@
 #name folder where your raw asc files want to process are
 ascDir <- "raw-asc"
 #name folder where want your slant corrected data in csv format to be stored (folder doesn't need to exist yet!)
-csvDir <- "csvs-for-rates"
+csvDir <- "slant-corrected-csv"
 #name folder where want your chromatogram plots in png format to be stored (doesn't need to exist yet either)
 pngDir <- "chroms-png"
 

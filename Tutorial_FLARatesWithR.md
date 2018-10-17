@@ -179,7 +179,7 @@ Do this after you run your initial FLA rates and have produced the output from F
 
 ### Create a reference file defining the samples you want to change to zero
 
-For this tutorial, I have provided a comma-separated (no spaces!) .txt file in the reference-files/ folder called ChangeToZeroKeys_shelf1234.txt. This file tells the script which incubations should be changed to zero. For your own project, use this as a template and adjust the incubation set names to be the ones you want to change to zero.
+For this tutorial, I have provided a comma-separated (no spaces!) .txt file in the reference-files/ folder called ChangeToZeroKeys_shelf1234.txt. This file tells the script which incubations should be changed to zero. For your own project, use this as a template and adjust the incubation set names to be the ones you want to change to zero. You can specify particular timepoints if you want by adding something like stn1-d1-bulk-ara-t1 (rather than stn1-d1-bulk-ara, which will look for all timepoints from that incubation set).
 
 ### Adjust the header for FlaRatesSpecial_ZeroCorrection_Rdemo.R
 
@@ -205,7 +205,7 @@ source("scripts/FlaRatesSpecial_ZeroCorrection_Rdemo.R")
 
 For this tutorial, I have provided this as reference-files/IgnoreFlaBin_shelf1234.txt. As with the zero correction ref file, use this as a template to define the incubation set filename prefixes that you want to recalculate rates for. The filename prefixes should use the stn#-d#-[bulk]-[substrate] file naming format we defined when we calcuated rates originally.
 
-### Adjust the header for FlaRatesSpecial_ZeroCorrection_Rdemo.R
+### Adjust the header for FlaRatesSpecial_IgnoreFLA_Rdemo.R
 
 This header looks a lot like the one we used for the FlaRates script, but with the extra reference file as well.
 

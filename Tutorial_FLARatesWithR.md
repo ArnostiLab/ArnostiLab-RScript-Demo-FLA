@@ -24,6 +24,8 @@ ls
 
 3. **FlaRates_Rdemo.R**: Calculate hydrolysis rates
 
+4. **ZeroCorrection.R**: Corrects false rates to 0
+
 
 ## 1 - Slant correct raw GPC data
 
